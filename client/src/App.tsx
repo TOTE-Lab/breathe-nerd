@@ -4,6 +4,7 @@ import LoginModal from "./components/LoginModal";
 import BreathingPage from "./components/BreathingPage";
 import "./App.css";
 import oceanWaves from "./assets/ocean-waves.mp3";
+import WaveForm from "./components/WaveForm";
 
 /*
   Responsibilities:
@@ -24,10 +25,10 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function startAudio() {
-    if (!audioRef.current) { 
-      audioRef.current = new Audio(oceanWaves); 
-      audioRef.current.loop = true; 
-      audioRef.current.volume = 0.3; 
+    if (!audioRef.current) {
+      audioRef.current = new Audio(oceanWaves);
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.3;
     }
 
     audioRef.current.play().catch((error) => {
@@ -37,36 +38,33 @@ function App() {
 
   function stopAudio() {
     if (!audioRef.current) {
-      return; 
+      return;
     }
 
-    audioRef.current.pause(); 
-    audioRef.current.currentTime = 0; 
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
   }
 
   function handleAudioToggle() {
     if (isAudioEnabled) {
-      stopAudio(); 
-      setIsAudioEnabled(false); 
-      return; 
+      stopAudio();
+      setIsAudioEnabled(false);
+      return;
     }
 
-    setIsAudioEnabled(true); 
+    setIsAudioEnabled(true);
 
-    if (user) { 
-      startAudio(); 
+    if (user) {
+      startAudio();
     }
   }
 
   function handleLoginSuccess(user: User) {
     setUser(user);
-    if (isAudioEnabled){
-      startAudio(); 
+    if (isAudioEnabled) {
+      startAudio();
     }
   }
-
-
-  
 
   useEffect(() => {
     async function authCheck() {
@@ -100,7 +98,7 @@ function App() {
         throw new Error("Logout failed");
       }
       // clear user state client-side after server session is destroyed
-      stopAudio(); 
+      stopAudio();
       setUser(null);
     } catch (error) {
       console.error(error);
@@ -117,6 +115,7 @@ function App() {
   //LoginModal appears on top when user is logged out
   return (
     <>
+      <WaveForm />
       <BreathingPage
         key={user ? "authenticated" : "logged-out"}
         user={user}
