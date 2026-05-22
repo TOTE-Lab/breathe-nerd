@@ -114,7 +114,7 @@ function App() {
   //BreathingPAge is always visible
   //LoginModal appears on top when user is logged out
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <WaveForm />
       <BreathingPage
         key={user ? "authenticated" : "logged-out"}
@@ -135,7 +135,7 @@ function App() {
       )}
 
       {!user && <LoginModal onLoginSuccess={handleLoginSuccess} />}
-    </>
+    </div>
   );
 }
 
