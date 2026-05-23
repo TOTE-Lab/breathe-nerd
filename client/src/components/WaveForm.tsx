@@ -35,8 +35,35 @@ export default function WaveForm() {
     ];
 
     function draw() {
-        
+      canvas!.width = canvas!.offsetWidth;
+      canvas!.height = canvas!.offsetHeight;
+      const w = canvas!.width;
+      const h = canvas!.height;
+      const t = Date.now() / 1000; // time in seconds - drives animation
+      context!.fillStyle = "#071A2E";
+      context!.fillRect(0, 0, w, h);
+      waves.forEach((wave) => {
+        context!.beginPath();
+        context!.moveTo(0, h);
+        for (let x = 0; x <= w; x += 2) {
+          const y =
+            h / 2 +
+            wave.offsetY +
+            wave.amplitude * Math.sin(x * wave.frequency + t * wave.speed);
+          context!.lineTo(x, y);
+        }
+        context!.lineTo(w, h);
+        context!.lineTo(0, h);
+        context!.closePath();
+        context!.fillStyle = wave.color;
+        context!.fill();
+      });
+
+      animId = requestAnimationFrame(draw);
     }
+    
+    draw();
+    return () => cancelAnimationFrame(animId);
   }, []);
 
   return (
