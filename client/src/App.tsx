@@ -22,6 +22,8 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function startAudio() {
@@ -140,6 +142,20 @@ function App() {
         >
           🪸
         </button>
+
+        <button
+            className="stress-before"
+            type="button"
+          >
+            ☁️
+          </button>
+
+          <button
+            className="stress-after"
+            type="button"
+          >
+            🦋
+          </button>
         </>
       )}
 

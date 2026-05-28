@@ -270,18 +270,19 @@
 }
 
 
-.audio-toggle, .dashboard-toggle {
+.audio-toggle,
+.dashboard-toggle {
   position: fixed;
   bottom: 1rem;
   z-index: 8;
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 60px;
   border: 1px solid rgb(208, 204, 196, 1);
   border-radius: 100px;
   /* background: rgba(114, 166, 220, 1); */
   background: none;
   color: #404040;
-  font-size: 1.7rem;
+  font-size: 2.7rem;
   font-weight: 700;
   cursor: pointer;
   /* box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24); */
@@ -289,13 +290,47 @@
 }
 
 .audio-toggle {
-left: 1rem;
+  left: 1rem;
 }
 
 .dashboard-toggle {
   right: 1rem;
 }
 
-.audio-toggle:hover, .dashboard-toggle:hover {
+.audio-toggle:hover,
+.dashboard-toggle:hover {
   transform: scale(1.4);
 }
+
+.stress-before, .stress-after {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.7rem;
+  cursor: pointer;
+  text-align: center;
+  max-width: 100px;
+  line-height: 1.4;
+  filter: drop-shadow(0 0 8px rgba(44, 103, 162, 0.9))
+          drop-shadow(0 0 20px rgba(7, 41, 74, 0.4));
+}
+
+.stress-before:hover,
+.stress-after:hover {
+  transform: translateY(-50%) scale(1.2);
+}
+
+.stress-before {
+  left: 7%;    /* far left side of screen */
+  top: 15%;    /* slightly below center so it sits on the landscape */
+}
+
+.stress-after {
+  right: 7%;   /* far right side of screen */
+  top: 15%;    /* slightly above center */
+}
+
