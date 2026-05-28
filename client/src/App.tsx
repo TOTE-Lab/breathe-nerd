@@ -124,6 +124,7 @@ function App() {
       />
 
       {user && (
+        <>
         <button
           className="audio-toggle"
           type="button"
@@ -132,6 +133,14 @@ function App() {
         >
           {isAudioEnabled ? "♪" : "×"}
         </button>
+
+        <button
+          className="dashboard-toggle"
+          type="button"
+        >
+          🪸
+        </button>
+        </>
       )}
 
       {!user && <LoginModal onLoginSuccess={handleLoginSuccess} />}
