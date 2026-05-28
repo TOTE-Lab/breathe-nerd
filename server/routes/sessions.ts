@@ -19,7 +19,7 @@ router.post('/', isAuthenticated, async (req: Request, res: Response, next: Next
         }
 
         //wait while supabase creates a new row with the user's stress ratings from before and after
-        const {error} = await supabase
+        const { error } = await supabase
             //we are accessing the session table
             .from('session')
             .insert({user_id: userId, stress_lvl_before, stress_lvl_after, exercises_completed: exercises_completed || 0})
