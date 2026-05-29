@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/auth': 'http://localhost:3000',
-      '/breathing-sessions': 'http://localhost:3000'
+      '/sessions': 'http://localhost:3000'
     }
   }
 })
