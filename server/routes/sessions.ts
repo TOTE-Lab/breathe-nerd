@@ -1,3 +1,14 @@
+/*
+    the Express (back-end) middle man between React (front-end) and the database 
+    interacts with the sessions table data from the database
+
+    post request
+    when a use rates their stress before and after an exercise we want to write that data into the session table
+
+    get request 
+    when the dashboard is opened this is how we request the desired user information from the sessions table
+*/
+
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import { isAuthenticated } from '../middleware/isAuthenticated.js';

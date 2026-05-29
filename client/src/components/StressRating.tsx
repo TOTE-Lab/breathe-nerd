@@ -1,3 +1,11 @@
+/*
+    React component - Stress rating popup for before and after
+    A panel of 10 numbered buttons 
+    When a use clicks one (rates stress) it calls a function with that number
+
+*/
+
+
 // COMPONENT StressRating(label, onRate):
 interface StressRatingProps {
     label: string;
