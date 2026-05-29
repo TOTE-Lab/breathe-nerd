@@ -4,6 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import session from 'express-session'
 import authRouter from './routes/auth.js'
+import sessionsRouter from './routes/sessions.js'
 import { isAuthenticated } from './middleware/isAuthenticated.js'
 
 const app = express()
@@ -25,6 +26,7 @@ app.use(session({
 }))
 
 app.use('/auth', authRouter)
+app.use('/sessions', sessionsRouter)
 
 app.use((err:Error, _req:Request, res:Response, _next:NextFunction) => {
   console.error(err.stack)
