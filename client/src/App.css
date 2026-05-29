@@ -160,25 +160,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 2px;
   text-align: center;
 }
 
 .breathing-content button {
-  font: inherit;
+  font-family: "Lora", sans-serif;
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 400;
   padding: 14px 28px;
-  border: none;
+  border: 1px solid rgba(232, 213, 136, 0.4);
   border-radius: 999px;
-  background: #fdfaf3;
-  color: #404040;
+  background: rgba(232, 213, 136, 0.12);
+  color: #e8d588;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 0 20px rgba(232, 213, 136, 0.15);
+  backdrop-filter: blur(4px);
 }
 
 .breathing-content button:hover {
   transform: scale(1.04);
+  box-shadow: 0 0 35px rgba(232, 213, 136, 0.3);
 }
 
 .breathing-content button:active {
@@ -226,16 +229,19 @@
   font-weight: 700;
   line-height: 1;
   color: #fdfaf3;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .app-title {
+  font-family: 'Cormorant Garamond', serif;
   font-size: 3rem;
   color: rgba(255, 250, 240, 0.75);
-  margin-bottom: 0.5rem;
+  margin-bottom: -25px;
 }
 
 .welcome-message {
-  font-size: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
   font-weight: 400;
   color: rgba(255, 250, 240, 0.55);
   margin-bottom: 1rem;
@@ -260,13 +266,15 @@
   width: 800px;
   height: 800px;
   padding: 3rem;
-  border: 2px solid rgba(255, 250, 240, 0.3);
+  box-shadow: 0 0 60px rgba(232, 213, 136, 0.15),
+            inset 0 0 60px rgba(232, 213, 136, 0.05);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 28px;
+  margin-bottom: 120px
 }
 
 
@@ -321,7 +329,7 @@
 
 .stress-before:hover,
 .stress-after:hover {
-  transform: translateY(-50%) scale(1.2);
+  transform: translateY(-50%) scale(1.3);
 }
 
 .stress-before {
@@ -332,5 +340,153 @@
 .stress-after {
   right: 7%;   /* far right side of screen */
   top: 15%;    /* slightly above center */
+}
+
+
+/* DASHBOARD POPUP */
+
+/* Dashboard Overlay - dark layer that covers the screen behind the popup */
+.dashboard-overlay {
+  position: fixed;   /* covers the whole browser window */
+  inset: 0;          /* shorthand for top:0, right:0, bottom:0, left:0 - stretches to all edges */
+  z-index: 20;       /* sits on top of everything else on screen */
+  display: grid;     
+  place-items: center; /* centers the popup in the middle of the overlay */
+  background: rgba(20, 20, 20, 0.55);  /* dark semi-transparent - you can still see the app behind it */
+  animation: fadeIn 0.3s ease-out;  /* fades in smoothly when it appears */
+}
+
+/* Dashboard Popup Box - the actual box that will appear in the middle fo the screen */
+.dashboard-popup {
+  width: min(100%, 380px);  /* 380px wide on desktop, full width on small screens */
+  padding: 2rem;            /* space inside the box so content doesn't touch the edges */
+  border: 1px solid rgba(232, 213, 136, 0.28);  /* subtle gold border */
+  border-radius: 12px;      /* rounded corners */
+  background: rgba(48, 48, 48, 0.96);  /* dark background matching the login modal */
+  color: #f7f3ea;           /* off white text */
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);  /* deep shadow makes it feel elevated */
+  position: relative;       /* needed so the close button can position itself absolutely inside */
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Close Button - the x in the top right corner to close the pop up */
+.dashboard-close {
+  position: absolute; top: 1rem; right: 1rem; /* positions relative to the popup not the page - 1 rem from top of popup and 1 rem from the right*/
+  background: none; border: none; /* no background or border */
+  color: #f7f3ea;           /* off white text */
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);  /* deep shadow makes it feel elevated */
+  position: absolute;       /* needed so the close button can position itself absolutely inside */
+  cursor: pointer;
+}
+
+/* When the close button is hovered over make it grow so user knows its clickable */
+.dashboard-close:hover { 
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}
+
+/* Greeting - the hey, user message at the top of the popup */
+.dashboard-greeting {
+  margin: 0 0 0.25rem;   /* small gap below before the subtitle */
+  font-size: 1.8rem;     /* large heading */
+  font-weight: 700;      /* bold */
+  color: #ffffff;      /* pure white - most prominent text in the popup */
+}
+
+/* Subtitle - the smaller text under the greeting */
+.dashboard-subtitle {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: #e8d588;
+}
+
+/* Loading message - displays while the front end is waiting for the stats data */
+.dashboard-loading {
+  text-align: center;
+  color: rgba(255, 250, 240, 0.5);
+  font-size: 0.9rem;
+}
+
+/* Stats grid - holds the three stats cards */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rems;
+}
+
+/*Individual Stat Card */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(232, 213, 136, 0.15);
+  border-radius: 8px;
+  background: rgba(28, 28, 28, 0.45);
+}
+
+/* the value of an individual stat card */
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e8d588;
+  line-height: 1;
+}
+
+/* the label of an individual stat card */
+.stat-label {
+  font-size: 0.75rem;
+  color: rgba(255, 250, 240, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+
+/* Stress rating panel */
+
+.stress-rating-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(232, 213, 136, 0.28);
+  border-radius: 12px;
+  background: rgba(48, 48, 48, 0.96);
+  color: #f7f3ea;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.stress-rating-label {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: rgba(255, 250, 240, 0.75);
+}
+
+.stress-rating-numbers {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.stress-rating-num {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(232, 213, 136, 0.3);
+  border-radius: 6px;
+  background: rgba(28, 28, 28, 0.45);
+  color: #f7f3ea;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  transform: 0.15s ease;
+}
+
+.stress-rating-num:hover {
+  background: #e8d588;
+  color: #404040;
+  transform: scale(1.1);
 }
 

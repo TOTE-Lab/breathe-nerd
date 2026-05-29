@@ -5,6 +5,8 @@ import BreathingPage from "./components/BreathingPage";
 import "./App.css";
 import oceanWaves from "./assets/ocean-waves.mp3";
 import WaveForm from "./components/WaveForm";
+import StressRating from './components/StressRating';
+import Dashboard from './components/Dashboard';
 
 /*
   Responsibilities:
@@ -22,6 +24,30 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+
+  const [stressBefore, setStressBefore] = useState<number | null>(null)
+  const [stressAfter, setStressAfter] = useState<number | null>(null)
+  const [isStressBeforeOpen, setIsStressBeforeOpen] = useState(false)
+  const [isStressAfterOpen, setIsStressAfterOpen] = useState(false)
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false)
+
+  async function saveSession(before: number, after: number) {
+    try {
+      //update the database with the stress level b4 and after (inputted by the user on UI)
+      await fetch('/sessions', {
+        method: 'POST',
+        //tells the browser to send the session cookie with the request - the server needs to know who the user is 
+        credentials: 'include',
+        //tells the server the data being sent is JSON format
+        headers: {"Content-Type": 'application/json'},
+        //the actual stress rating data being written to the database through the backend 
+        //converted to JSON so the server can read it 
+        body: JSON.stringify({ stress_lvl_before: before, stress_lvl_after: after})
+      })
+    } catch (err){
+      console.log("Failed to save session", err)
+    }
+  }
 
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -139,23 +165,56 @@ function App() {
         <button
           className="dashboard-toggle"
           type="button"
+          onClick={()=>{setIsDashboardOpen(prev => !prev)}}
         >
           🪸
         </button>
 
         <button
-            className="stress-before"
-            type="button"
-          >
-            ☁️
-          </button>
+          className="stress-before"
+          type="button"
+          onClick={() => {setIsStressBeforeOpen(prev => !prev)}}
+        >
+          ☁️
+        </button>
 
-          <button
-            className="stress-after"
-            type="button"
-          >
-            🦋
-          </button>
+        <button
+          className="stress-after"
+          type="button"
+          onClick={() => {setIsStressAfterOpen(prev => !prev)}}
+        >
+          🦋
+        </button>
+
+        {isStressBeforeOpen && (
+          <StressRating 
+            label="How stressed are you? (1-10)"
+            onRate={(rating) => {
+              setStressBefore(rating)
+              setIsStressBeforeOpen(false)
+              if (stressAfter) saveSession(rating, stressAfter)
+            }}
+          />
+        )}
+        
+        {isStressAfterOpen && (
+          <StressRating
+            label='How do you feel now? (1-10)'
+            onRate={(rating) => {
+              setStressAfter(rating)
+              setIsStressAfterOpen(false)
+              if(stressBefore) saveSession(stressBefore, rating)
+            }}
+          />
+        )}
+
+        {isDashboardOpen && (
+          <Dashboard
+            user={user}
+            onClose={() => setIsDashboardOpen(false)}
+          />
+        )}
+
         </>
       )}
 

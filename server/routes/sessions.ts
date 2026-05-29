@@ -76,7 +76,10 @@ router.get('/stats', isAuthenticated, async (req: Request, res: Response, next: 
         // otherwise loop through every session, subtract after stress from before stress,
         // sum all those differences, then divide by the number of sessions to get the average
         const avgReduction = totalSessions === 0 ? 0 :
-            sessions!.reduce((sum, s) => sum + (s.stress_lvl_before - s.stress_lvl_after), 0) / totalSessions 
+            sessions!.reduce((sum, s) => {
+                const percentChange = ((s.stress_lvl_before - s.stress_lvl_after) / s.stress_lvl_before) * 100
+                return sum + percentChange
+            }, 0) / totalSessions
 
         // send back the three calculated stats as a JSON object
         return res.status(200).json({ totalSessions, avgReduction, lastLogin: userData?.last_login })
