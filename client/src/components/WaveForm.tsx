@@ -5,8 +5,9 @@
   creates a empty box (formatted like an object) that persists across re-renders
   has a single property - .current - where all the value lives
   the useRef box lives in the JavaScript code, starts empty, and has nothing to do with whats shown on screen 
-
+ 
   useState v.s useRef - changing state will cause a re-render, changing a ref does NOT
+  the values in ref can change without re-rendering the ui 
 
   canvas
   an HTML element - this is the actual rectangle that will appear on the screen 

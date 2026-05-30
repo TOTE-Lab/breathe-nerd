@@ -173,3 +173,76 @@ git merge dev
 4. Database is prepared for future breathing-session tracking.
 5. UI is polished and edge cases are handled.
 6. Stretch work starts after the MVP: mood check-in, breathing-session saving, and dashboard.
+
+
+
+
+
+
+## HEAT CHICKEN ADDITION
+
+
+
+## Wave Form - 
+    Created a canvas element at the bottom of the screen using React's useRef function to access it directly 
+
+    useRef
+    creates a empty box (formatted like an object) that persists across re-renders
+
+
+    canvasRef -> holds the actual canvas element on the page so you can draw on it directly without going through React
+
+    analyserRef -> holds the AnalyserNode after the mic connects so draw() can read audio data from it 60 times per second
+
+    dataArrayRef -> holds the 256 slot array that gets filled with fresh audio data every frame - represents the current waveForm
+
+
+    On mount, useEffect sets up the the Web Audio API chain
+    -> use getUserMedia to request mic permission
+    -> use AudioContext to process the audio stream
+    -> use AnalyzerNode to sit in the web Audio signal chain and read data passing through
+
+
+    A requestAnimationFrame loop runs our draw() function 60 time per second, reading fresh mic data and drawing the layered wave shapes onto the canvas element - the wave amplitude scales with mic volume so they increase visually as user volume increases
+
+    There is a clean up function returned from useEffect() that stops the draw loop and the mic when the user navigates away from the page
+
+
+
+
+## Sessions Route
+Created an Express router in sessions router file, with two routes (get & post)
+
+POST route
+-> receives the stress ratings from React in req.body, pulls the user ID from the session cookie via authentication middleware, and inserts a new row into the Supabase session table
+
+GET route
+-> queries all the session rows for that user, calculates the total sessions and average stress reduction ad a percentage, fetches last_login from the user's table in a second query, and returns all three as a JSON response
+
+
+
+## StressRating Component
+
+
+
+
+## Dashboard Component - 
+React component used as a pop-up user dashboard on the main page
+
+The component is given props of the user object and onClose function from the main file (App.tsx)
+
+useEffect
+fetches stats from the Express server, passing the session cookie so the server knows whose data to return 
+
+useState
+handles the loading state while waiting for a response - once data arrives the dashboard will display the user information 
+
+Stats are calculate server side rather than in React so we are not sending raw database rows just to do math on them in the browser
+
+
+## Tests
+
+
+
+
+## Technical Challenges
