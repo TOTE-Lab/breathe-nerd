@@ -30,7 +30,7 @@ app.use('/sessions', sessionsRouter)
 
 app.use((err:Error, _req:Request, res:Response, _next:NextFunction) => {
   console.error(err.stack)
-
+  console.error(err)  
   res.status(500).json({ error : "Internal Server Error" })
 })
 

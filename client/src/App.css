@@ -165,6 +165,7 @@
 }
 
 .breathing-content button {
+  margin-bottom: 10px;
   font-family: "Lora", sans-serif;
   font-size: 1.35rem;
   font-weight: 400;
