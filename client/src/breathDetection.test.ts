@@ -21,26 +21,38 @@
 import { describe, it, expect } from 'vitest'
 import { computeThreshold, shouldDebounce } from './breathDetection'
 
-//tests that the breathDetection logic 
+//tests for the threshold function from the breathDetection logic 
 describe('computeThreshold', () => {
-    //test ->doesn't return an error when the audio sample array has no data
+    //test -> doesn't return an error when the audio sample array has no data
     it('returns a safe default for an empty array', () => {
         //when the audio sample array is empty return our default volume/number
         expect(computeThreshold([])).toBeGreaterThan(0)
     })
-    //threshold function -> returns the 
+    //test -> the threshold volume is around the 60% mark of the loudness of the topmost 20% samples from the audio array
     it('returns threshold around 60% of average peak', () => {
         const samples = [10, 12, 95, 100, 105, 98, 11, 9]
         const threshold = computeThreshold(samples)
         expect(threshold).toBeGreaterThan(50)
         expect(threshold).toBeLessThan(75)
     })
+    //test -> the function should never return 0
     it('never returns zero for loud samples', () => {
         expect(computeThreshold([200, 210, 205])).toBeGreaterThan(0)
     })
 })
 
+//tests the shouldDebounce function from breathDetection 
 describe('shouldDebounce', () => {
-    it('returns true when last breath was too recent')
+    //test -> the function correctly identifies when a breath was too recent
+    it('returns true when last breath was too recent', () => {
+        expect(shouldDebounce(500, 1000, 800)).toBe(true)
+    })
+    //test -> when enough time has passed to register a new one
+    it('returns false when enough time has passed', () => {
+        expect(shouldDebounce(100, 1000, 800)).toBe(false)
+    })
+    it('returns false when enough time has passed', () => {
+        expect(shouldDebounce(100, 1000, 800)).toBe(false)
+    })
 })
 
